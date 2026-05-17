@@ -65,13 +65,25 @@ npm run build
 npm start
 ```
 
-## 🛡 Security Note
+## 🚀 Deployment to Render
 
-This version of Velora is equipped with **Basic Level Security**. It features standard neural encryption and essential protection layers suitable for general research and development. 
+This application is ready for deployment on **Render** as a Web Service.
 
-## 🗺 Roadmap
-- [ ] Multi-Agent Orchestration 2.0
-   ------------
-- [ ] Enterprise-Grade Neural Guardrails
-- [ ] Collaborative Real-time Canvases
-- [ ] Advanced Git-Linked Autonomous PR Reviews
+### 1. Simple Deployment (Render Blueprint)
+1. Fork or upload this repository to GitHub/GitLab.
+2. In your Render Dashboard, click **New +** and select **Blueprint**.
+3. Connect your repository. Render will automatically detect the `render.yaml` file.
+4. Provide the required Environment Variables when prompted (`GEMINI_API_KEY`).
+
+### 2. Manual Deployment
+If you prefer to configure it manually:
+1. Create a new **Web Service**.
+2. **Runtime**: Node
+3. **Build Command**: `npm install && npm run build`
+4. **Start Command**: `npm start`
+5. **Environment Variables**:
+   - `GEMINI_API_KEY`: Your Google Gemini API Key.
+   - `NODE_VERSION`: `20` (recommended).
+
+---
+
