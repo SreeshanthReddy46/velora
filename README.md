@@ -1,20 +1,77 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Velora: Next-Gen Neural Architecture
 
-# Run and deploy your AI Studio app
+Velora is an elite technical intelligence platform designed for rapid software engineering, deep research, and high-fidelity asset synthesis. It leverages a proprietary multi-agent loop powered by state-of-the-art Gemini models to deliver production-grade results with autonomous execution capabilities.
 
-This contains everything you need to run your app locally.
+## 🚀 Key Features
 
-View your app in AI Studio: https://ai.studio/apps/c72c44eb-68e2-4ac1-9264-47821ceebbf2
+### 1. Neural Core (Agent Modes)
+Velora operates through three distinct neural specializations optimized for specific technical workflows:
+- **VION (Rapid)**: Powered by `gemini-2.0-flash-exp` for ultra-fast technical answers, code snippets, and quick debugging.
+- **PULSE (Deep Search)**: Utilizes `gemini-1.5-pro` for complex research, architectural reviews, and deep file analysis across thousands of context tokens.
+- **STUDIO (Asset Generation)**: A dedicated creative engine for synthesizing high-fidelity realistic placeholders and studio-grade UI assets.
 
-## Run Locally
+### 2. Neural Link (RAG)
+Integrated vector search capabilities using text embeddings to provide contextual grounding. Velora can ingest and reference specific technical documentation or project context to minimize hallucinations and maximize accuracy.
 
-**Prerequisites:**  Node.js
+### 3. Basic Guard Security
+Implemented "Basic Guard" neural encryption and essential data protection protocols to ensure a secure operating environment for technical queries.
 
+### 4. Real-time Streaming
+Experience high-velocity inference with real-time neural streaming, providing instant feedback as the agents process complex instructions.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🛠 Tech Stack
+
+- **Frontend**: React 19, Vite, Tailwind CSS (Mobile-first, Responsive)
+- **Animations**: Framer Motion (`motion/react`)
+- **Backend**: Express + Node.js (TypeScript)
+- **AI/ML**: Google Generative AI (@google/genai)
+- **Database**: Firebase (Firestore) & Vector Embeddings
+- **State Management**: Zustand
+- **Styling**: Tailwind CSS v4
+
+## 📦 Getting Started
+
+### Prerequisites
+- Node.js 20+
+- Google Gemini API Key
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your environment variables (copy `.env.example` to `.env`):
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   PINECONE_API_KEY=optional_vector_store_key
+   PINECONE_INDEX=velora
+   ```
+
+### Development
+
+Run the development server (Proxy + Frontend):
+```bash
+npm run dev
+```
+The server will be available at `http://localhost:3000`.
+
+### Production Build
+
+Build and bundle the application:
+```bash
+npm run build
+npm start
+```
+
+## 🛡 Security Note
+
+This version of Velora is equipped with **Basic Level Security**. It features standard neural encryption and essential protection layers suitable for general research and development. 
+
+## 🗺 Roadmap
+- [ ] Multi-Agent Orchestration 2.0
+   ------------
+- [ ] Enterprise-Grade Neural Guardrails
+- [ ] Collaborative Real-time Canvases
+- [ ] Advanced Git-Linked Autonomous PR Reviews
