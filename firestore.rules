@@ -1,0 +1,77 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Pillar 2: Validation Helpers
+    function isValidUser(data) {
+      return data.keys().hasAll(['name', 'onboardingCompleted', 'createdAt']) &&
+             data.keys().size() == 4 && // Including potential 'age'
+             data.name is string && data.name.size() <= 100 &&
+             data.onboardingCompleted is bool &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidSession(data) {
+      return data.keys().hasAll(['userId', 'title', 'createdAt']) &&
+             data.userId == request.auth.uid &&
+             data.title is string && data.title.size() <= 200 &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidMessage(data) {
+      return data.keys().hasAll(['userId', 'role', 'content', 'createdAt']) &&
+             data.userId == request.auth.uid &&
+             data.role in ['user', 'assistant'] &&
+             data.content is string && data.content.size() <= 10000 &&
+             data.createdAt is timestamp;
+    }
+
+    // users/{userId}
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(request.resource.data) && request.resource.data.createdAt == request.time;
+      allow update: if isOwner(userId) && isValidUser(request.resource.data) && 
+                      request.resource.data.createdAt == resource.data.createdAt &&
+                      request.resource.data.diff(resource.data).affectedKeys().hasAny(['name', 'age', 'onboardingCompleted']);
+    }
+
+    // sessions/{sessionId}
+    match /sessions/{sessionId} {
+      allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(sessionId) && isValidSession(request.resource.data) && request.resource.data.createdAt == request.time;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid && 
+                      isValidSession(request.resource.data) &&
+                      request.resource.data.userId == resource.data.userId &&
+                      request.resource.data.createdAt == resource.data.createdAt &&
+                      request.resource.data.diff(resource.data).affectedKeys().hasAny(['title', 'isPinned', 'updatedAt']);
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      // sessions/{sessionId}/messages/{messageId}
+      match /messages/{messageId} {
+        allow get: if isSignedIn() && get(/databases/$(database)/documents/sessions/$(sessionId)).data.userId == request.auth.uid;
+        allow list: if isSignedIn() && get(/databases/$(database)/documents/sessions/$(sessionId)).data.userId == request.auth.uid;
+        allow create: if isSignedIn() && isValidId(messageId) && isValidMessage(request.resource.data) && 
+                        request.resource.data.createdAt == request.time &&
+                        get(/databases/$(database)/documents/sessions/$(sessionId)).data.userId == request.auth.uid;
+      }
+    }
+  }
+}

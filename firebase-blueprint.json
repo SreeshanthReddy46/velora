@@ -1,0 +1,55 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Represents a user profile in the application.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The user's display name" },
+        "age": { "type": "number", "description": "The user's age" },
+        "onboardingCompleted": { "type": "boolean", "description": "Whether the user has completed the onboarding process" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the user profile was created" }
+      },
+      "required": ["name", "onboardingCompleted", "createdAt"]
+    },
+    "ChatSession": {
+      "title": "Chat Session",
+      "description": "Represents a conversation session.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The owner of the session" },
+        "title": { "type": "string", "description": "The session title" },
+        "isPinned": { "type": "boolean", "description": "Whether the session is pinned" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last updated timestamp" }
+      },
+      "required": ["userId", "title", "createdAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "A single message within a session.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The author of the message" },
+        "role": { "type": "string", "enum": ["user", "assistant"], "description": "The role of the sender" },
+        "content": { "type": "string", "description": "The message text" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp" }
+      },
+      "required": ["userId", "role", "content", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profile data"
+    },
+    "sessions/{sessionId}": {
+      "schema": "ChatSession",
+      "description": "Metadata for a chat session"
+    },
+    "sessions/{sessionId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Individual messages in a session"
+    }
+  }
+}

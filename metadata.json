@@ -1,0 +1,6 @@
+{
+  "name": "Velora",
+  "description": "Next-generation multi-agent neural architecture for rapid technical reasoning and deep search autonomous execution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API", "Proprietary Agent Loop", "Real-time Neural Streaming"]
+}
